@@ -1,0 +1,76 @@
+{
+  "variables": {
+    "artifact_description": "CentOS Stream 8 with kernel 5.x",
+    "artifact_version": "8",
+    "image_name": "centos-8"
+  },
+  
+  "builders": [
+    {
+      "name": "{{user `image_name`}}",
+      "type": "virtualbox-iso",
+      "vm_name": "packer-centos-vm",
+      "headless": "true",
+      "boot_wait": "10s",
+      "disk_size": "10240",
+      "guest_os_type": "RedHat_64",
+      "http_directory": "http",
+      
+      "iso_url": "https://mirror.linux-ia64.org/centos/8-stream/isos/x86_64/CentOS-Stream-8-x86_64-20221027-boot.iso",
+      "iso_checksum": "4c2424925e6da0e02d4b5db22b2ed89c4068c40040ee8cd042c6a0fbb9e4aac1",
+      
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+      ],
+
+      "shutdown_command": "sudo -S /sbin/halt -h -p",
+      "shutdown_timeout": "5m",
+      
+      "ssh_timeout": "40m",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_pty": true,
+      
+      "output_directory": "builds",
+      
+      "vboxmanage": [
+        [  "modifyvm",  "{{.Name}}",  "--memory",  "1024" ],
+        [  "modifyvm",  "{{.Name}}",  "--cpus",  "2" ]
+      ],
+      
+      "export_opts":
+      [
+        "--manifest",
+        "--vsys", "0",
+        "--description", "{{user `artifact_description`}}",
+        "--version", "{{user `artifact_version`}}"
+      ]
+      
+    }
+  ],
+  "post-processors": [
+    {
+      "compression_level": "7",
+      "output": "centos-{{user `artifact_version`}}-kernel-5-x86_64-Minimal.box",
+      "type": "vagrant"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "{{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "start_retry_timeout": "1m",
+      "expect_disconnect": true,
+      "pause_before": "20s",
+      "override": {
+        "{{user `image_name`}}": {
+          "scripts": [
+            "scripts/stage-1-kernel-update.sh",
+            "scripts/stage-2-clean.sh"
+          ]
+        }
+      }
+    }
+  ]
+}
