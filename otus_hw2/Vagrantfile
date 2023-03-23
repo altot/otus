@@ -49,8 +49,8 @@ Vagrant.configure("2") do |config|
           box.vm.network "private_network", ip: boxconfig[:ip_addr]
 
           box.vm.provider :virtualbox do |vb|
-            	  vb.customize ["modifyvm", :id, "--memory", "2048"]
-		  vb.customize ["modifyvm", :id, "--cpus", "2"
+            	  vb.customize ["modifyvm", :id, "--memory", "1024"]
+		  vb.customize ["modifyvm", :id, "--cpus", "2"]
                   needsController = false
 		  boxconfig[:disks].each do |dname, dconf|
 			  unless File.exist?(dconf[:dfile])
@@ -66,8 +66,8 @@ Vagrant.configure("2") do |config|
                      end
                   end
           end
-          # Enable provisioning with a shell script
           box.vm.provision "shell", path: "provision.sh", run: "once"
       end
   end
 end
+
