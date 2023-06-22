@@ -10,7 +10,7 @@ systemctl enable nfs --now
 mkdir -p /srv/share/upload
 chown -R nfsnobody:nfsnobody /srv/share
 chmod 0777 /srv/share/upload
-echo  "/srv/share 192.168.50.10/32(rw,sync,root_squash)" >> /etc/exports
+echo  "/srv/share 192.168.50.10/24(rw,sync,root_squash)" >> /etc/exports
 exportfs -r
 exportfs -s
 
