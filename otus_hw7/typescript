@@ -1,0 +1,181 @@
+Script started on 2023-06-27 10:55:05+05:00 [TERM="xterm-256color" TTY="/dev/pts/7" COLUMNS="105" LINES="53"]
+[?2004h[38;5;11malexeytot(B[m@snarkeb:(B[m[38;5;6m[~/otus/otus_hw7](B[m (B[m[38;5;2m10:55:05(B[m: (B[mvagrant ssh
+[?2004l
+]0;vagrant@lvm:~[?1034h[vagrant@lvm ~]$ sudo -i
+]0;root@lvm:~[?1034h[root@lvm ~]# vgs
+  VG         #PV #LV #SN Attr   VSize   VFree
+  VolGroup00   1   2   0 wz--n- <38.97g    0 
+]0;root@lvm:~[root@lvm ~]# sed -i \[K's/VolGroup00/OtusRoot/g' /etc/fstab 
+]0;root@lvm:~[root@lvm ~]# vgrename VolGroup00 OtusRoot
+  Volume group "VolGroup00" successfully renamed to "OtusRoot"
+]0;root@lvm:~[root@lvm ~]# vgrename VolGroup00 OtusRoot
+[C[C[C[C[C[C[C[C[C[C[C[C[C[Csed -i 's/VolGroup00/OtusRoot/g' /etc/fstab [K[K[K[K[K[Kdefault/grub 
+]0;root@lvm:~[root@lvm ~]# grub2-mkconfig -o /boot/grub2/grub.cfg 
+[C[C[C[C[C[C[C[C[C[C[C[C[C[C[17Pview /etc/default/grub
+[C[C[C[C[C[C[C[C[C[C[C[C[C[Csed -i 's/VolGroup00/OtusRoot/g' /etc/default/grub [K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K/boot/grub2/grub.cfg
+]0;root@lvm:~[root@lvm ~]# sed -i 's/VolGroup00/OtusRoot/g' /boot/grub2/grub.cfg
+]0;root@lvm:~[root@lvm ~]# mkinitrd -f -v /boot/o[K/boot/grub2/grub.cfg^[b.cfg[b.cfgCb.cfg[C[C[C[C[C[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[Kvagrant init centos/7[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K[K/boot/initramfs-$(uname -r).img $(uname -r)
+Executing: /sbin/dracut -f -v /boot/initramfs-3.10.0-862.2.3.el7.x86_64.img 3.10.0-862.2.3.el7.x86_64
+
+*** Creating initramfs image file '/boot/initramfs-3.10.0-862.2.3.el7.x86_64.img' done ***
+]0;root@lvm:~[root@lvm ~]# mkinitrd -f -v /boot/initramfs-$(uname -r).img $(uname -r)
+[C[C[C[C[C[C[C[C[C[C[C[C[C[C[19Pgrub2-mkconfig -o /boot/grub2/grub.cfg 
+/usr/sbin/grub2-probe: error: failed to get canonical path of `/dev/mapper/VolGroup00-LogVol00'.
+]0;root@lvm:~[root@lvm ~]# sync
+]0;root@lvm:~[root@lvm ~]# reboot
+Connection to 127.0.0.1 closed by remote host.
+
+[?2004h[38;5;11malexeytot(B[m@snarkeb:(B[m[38;5;6m[~/otus/otus_hw7](B[m (B[m[38;5;2m11:00:21(B[m: (B[mvagrant sshcd otus/*hw6[1Pvagrant ssh
+[?2004l
+[?2004h[38;5;11malexeytot(B[m@snarkeb:(B[m[38;5;6m[~/otus/otus_hw7](B[m (B[m[38;5;2m11:02:10(B[m: (B[mvagrant ssh
+[?2004l
+Last login: Tue Jun 27 05:55:12 2023 from 10.0.2.2
+
+]0;vagrant@lvm:~[vagrant@lvm ~]$ sudo -i
+]0;root@lvm:~[?1034h[root@lvm ~]# vgs
+  VG       #PV #LV #SN Attr   VSize   VFree
+  OtusRoot   1   2   0 wz--n- <38.97g    0 
+]0;root@lvm:~[root@lvm ~]# mkdir /usr/lib/dracut/modules.d/01test
+
+
+]0;root@lvm:~[root@lvm ~]# curl -O https://gist.githubusercontent.com/lalbrekht/ac45d7a6c6856baea348e64fac43faf0/raw/6 
+9598efd5c603df310097b52019dc979e2cb342d/gistfile1.txt
+]0;root@lvm:~[root@lvm ~]# mv gistfile1.txt test.sh
+[C[C[C[C[C[C[C[C[C[C[C[C[C[Cls[Kcurl -O https://gist.githubusercontent.com/lalbrekht/e51b2580b47bb5a150bd1a002f16ae85/raw/80060b7b300e193c187bbcda4d8fdf0e1c066af9/gistfile1.txt
+
+]0;root@lvm:~[root@lvm ~]# mv module-setup.sh test.sh /usr/lib/dracut/modules.d/01test/
+]0;root@lvm:~[root@lvm ~]# cd /usr/lib/dracut/modules.d/01test/
+]0;root@lvm:/usr/lib/dracut/modules.d/01test[root@lvm 01test]# ./mode[K[K[K[K[K[Kls
+module-setup.sh  test.sh
+]0;root@lvm:/usr/lib/dracut/modules.d/01test[root@lvm 01test]# sh module-setup.sh 
+]0;root@lvm:/usr/lib/dracut/modules.d/01test[root@lvm 01test]# ./te[K[K[K[Ksh test.sh 
+]0;root@lvm:/usr/lib/dracut/modules.d/01test[root@lvm 01test]# chmod +X *
+]0;root@lvm:/usr/lib/dracut/modules.d/01test[root@lvm 01test]# ./tes[K[K[K[K[Kls
+module-setup.sh  test.sh
+]0;root@lvm:/usr/lib/dracut/modules.d/01test[root@lvm 01test]# ls-[K -la
+total 12
+drwxr-xr-x.  2 root root   44 Jun 27 06:12 [0m[38;5;27m.[0m
+drwxr-xr-x. 52 root root 4096 Jun 27 06:05 [38;5;27m..[0m
+-rw-r--r--.  1 root root  126 Jun 27 06:07 module-setup.sh
+-rw-r--r--.  1 root root  334 Jun 27 06:07 test.sh
+]0;root@lvm:/usr/lib/dracut/modules.d/01test[root@lvm 01test]# ls -la[Kchmod +X *[1P *x *
+]0;root@lvm:/usr/lib/dracut/modules.d/01test[root@lvm 01test]# chmod +x *[4Pls -la[K -la
+total 12
+drwxr-xr-x.  2 root root   44 Jun 27 06:12 [0m[38;5;27m.[0m
+drwxr-xr-x. 52 root root 4096 Jun 27 06:05 [38;5;27m..[0m
+-rwxr-xr-x.  1 root root  126 Jun 27 06:07 [38;5;34mmodule-setup.sh[0m
+-rwxr-xr-x.  1 root root  334 Jun 27 06:07 [38;5;34mtest.sh[0m
+]0;root@lvm:/usr/lib/dracut/modules.d/01test[root@lvm 01test]# ./test.sh 
+]0;root@lvm:/usr/lib/dracut/modules.d/01test[root@lvm 01test]# m[Kvi test.sh 
+[?1049h[?1h=[1;53r[?12;25h[?12l[?25h[27m[m[H[2J[?25l[53;1H"test.sh" 22L, 334C[1;1H#!/bin/bash
+
+exec 0<>/dev/console 1<>/dev/console 2<>/dev/console
+cat <<'msgend'
+
+Hello! You are in dracut module!
+
+ ___________________
+< I'm dracut module >
+ -------------------
+   \
+    \[13;9H.--.[14;8H|o_o |[15;8H|:_/ |[16;7H//   \ \[17;6H(|     | )
+    /'\_   _/`\
+    \___)=(___/
+msgend
+sleep 10
+echo " continuing...."
+[94m~                                                                                                        [24;1H~                                                                                                        [25;1H~                                                                                                        [26;1H~                                                                                                        [27;1H~                                                                                                        [28;1H~                                                                                                        [29;1H~                                                                                                        [30;1H~                                                                                                        [31;1H~                                                                                                        [32;1H~                                                                                                        [33;1H~                                                                                                        [34;1H~                                                                                                        [35;1H~                                                                                                        [36;1H~                                                                                                        [37;1H~                                                                                                        [38;1H~                                                                                                        [39;1H~                                                                                                        [40;1H~                                                                                                        [41;1H~                                                                                                        [42;1H~                                                                                                        [43;1H~                                                                                                        [44;1H~                                                                                                        [45;1H~                                                                                                        [46;1H~                                                                                                        [47;1H~                                                                                                        [48;1H~                                                                                                        [49;1H~                                                                                                        [50;1H~                                                                                                        [51;1H~                                                                                                        [52;1H~                                                                                                        [1;1H[?12l[?25h[?25l[m[53;1H[K[53;1H:[?12l[?25hq
+[?25l[53;1H[K[53;1H[?1l>[?12l[?25h[?1049l]0;root@lvm:/usr/lib/dracut/modules.d/01test[root@lvm 01test]# msge
+msgen    msgexec  
+[root@lvm 01test]# msgen 
+msgen: no input file given
+Try 'msgen --help' for more information.
+]0;root@lvm:/usr/lib/dracut/modules.d/01test[root@lvm 01test]# msgen [Kvi module-setup.sh 
+[?1049h[?1h=[1;53r[?12;25h[?12l[?25h[27m[m[H[2J[?25l[53;1H"module-setup.sh" 13L, 126C[1;1H#!/bin/bash
+
+check() {
+    return 0
+}
+
+depends() {
+    return 0
+}
+
+install() {
+    inst_hook cleanup 00 "${moddir}/test.sh"
+}
+[94m~                                                                                                        [15;1H~                                                                                                        [16;1H~                                                                                                        [17;1H~                                                                                                        [18;1H~                                                                                                        [19;1H~                                                                                                        [20;1H~                                                                                                        [21;1H~                                                                                                        [22;1H~                                                                                                        [23;1H~                                                                                                        [24;1H~                                                                                                        [25;1H~                                                                                                        [26;1H~                                                                                                        [27;1H~                                                                                                        [28;1H~                                                                                                        [29;1H~                                                                                                        [30;1H~                                                                                                        [31;1H~                                                                                                        [32;1H~                                                                                                        [33;1H~                                                                                                        [34;1H~                                                                                                        [35;1H~                                                                                                        [36;1H~                                                                                                        [37;1H~                                                                                                        [38;1H~                                                                                                        [39;1H~                                                                                                        [40;1H~                                                                                                        [41;1H~                                                                                                        [42;1H~                                                                                                        [43;1H~                                                                                                        [44;1H~                                                                                                        [45;1H~                                                                                                        [46;1H~                                                                                                        [47;1H~                                                                                                        [48;1H~                                                                                                        [49;1H~                                                                                                        [50;1H~                                                                                                        [51;1H~                                                                                                        [52;1H~                                                                                                        [1;1H[?12l[?25h
+
+
+
+
+
+
+
+
+
+
+
+[12;1H[?25l[m[53;1H[K[53;1H:[?12l[?25hq
+[?25l[53;1H[K[53;1H[?1l>[?12l[?25h[?1049l]0;root@lvm:/usr/lib/dracut/modules.d/01test[root@lvm 01test]# vi module-setup.sh msgen [K[5@vi test.sh[C
+[?1049h[?1h=[1;53r[?12;25h[?12l[?25h[27m[m[H[2J[?25l[53;1H"test.sh" 22L, 334C[1;1H#!/bin/bash
+
+exec 0<>/dev/console 1<>/dev/console 2<>/dev/console
+cat <<'msgend'
+
+Hello! You are in dracut module!
+
+ ___________________
+< I'm dracut module >
+ -------------------
+   \
+    \[13;9H.--.[14;8H|o_o |[15;8H|:_/ |[16;7H//   \ \[17;6H(|     | )
+    /'\_   _/`\
+    \___)=(___/
+msgend
+sleep 10
+echo " continuing...."
+[94m~                                                                                                        [24;1H~                                                                                                        [25;1H~                                                                                                        [26;1H~                                                                                                        [27;1H~                                                                                                        [28;1H~                                                                                                        [29;1H~                                                                                                        [30;1H~                                                                                                        [31;1H~                                                                                                        [32;1H~                                                                                                        [33;1H~                                                                                                        [34;1H~                                                                                                        [35;1H~                                                                                                        [36;1H~                                                                                                        [37;1H~                                                                                                        [38;1H~                                                                                                        [39;1H~                                                                                                        [40;1H~                                                                                                        [41;1H~                                                                                                        [42;1H~                                                                                                        [43;1H~                                                                                                        [44;1H~                                                                                                        [45;1H~                                                                                                        [46;1H~                                                                                                        [47;1H~                                                                                                        [48;1H~                                                                                                        [49;1H~                                                                                                        [50;1H~                                                                                                        [51;1H~                                                                                                        [52;1H~                                                                                                        [1;1H[?12l[?25h[?25l[m[53;1H[K[53;1H:[?12l[?25hq
+[?25l[53;1H[K[53;1H[?1l>[?12l[?25h[?1049l]0;root@lvm:/usr/lib/dracut/modules.d/01test[root@lvm 01test]# dracut -f -v
+Executing: /sbin/dracut -f -v
+
+*** Creating initramfs image file '/boot/initramfs-3.10.0-862.2.3.el7.x86_64.img' done ***
+]0;root@lvm:/usr/lib/dracut/modules.d/01test[root@lvm 01test]# lsinitrd -m /boot/initramfs-$(uname -r).img | grep test
+[01;31m[Ktest[m[K
+]0;root@lvm:/usr/lib/dracut/modules.d/01test[root@lvm 01test]# vi /etc/default/grub 
+[?1049h[?1h=[1;53r[?12;25h[?12l[?25h[27m[m[H[2J[?25l[53;1H"/etc/default/grub" 7L, 384C[1;1HGRUB_TIMEOUT=1
+GRUB_DISTRIBUTOR="$(sed 's, release .*$,,g' /etc/system-release)"
+GRUB_DEFAULT=saved
+GRUB_DISABLE_SUBMENU=true
+GRUB_TERMINAL_OUTPUT="console"
+GRUB_CMDLINE_LINUX="no_timer_check console=tty0 console=ttyS0,115200n8 net.ifnames=0 biosdevname=0 elevatt[7;1Hor=noop crashkernel=auto rd.lvm.lv=OtusRoot/LogVol00 rd.lvm.lv=OtusRoot/LogVol01 rhgb quiet"
+GRUB_DISABLE_RECOVERY="true"
+[94m~                                                                                                        [10;1H~                                                                                                        [11;1H~                                                                                                        [12;1H~                                                                                                        [13;1H~                                                                                                        [14;1H~                                                                                                        [15;1H~                                                                                                        [16;1H~                                                                                                        [17;1H~                                                                                                        [18;1H~                                                                                                        [19;1H~                                                                                                        [20;1H~                                                                                                        [21;1H~                                                                                                        [22;1H~                                                                                                        [23;1H~                                                                                                        [24;1H~                                                                                                        [25;1H~                                                                                                        [26;1H~                                                                                                        [27;1H~                                                                                                        [28;1H~                                                                                                        [29;1H~                                                                                                        [30;1H~                                                                                                        [31;1H~                                                                                                        [32;1H~                                                                                                        [33;1H~                                                                                                        [34;1H~                                                                                                        [35;1H~                                                                                                        [36;1H~                                                                                                        [37;1H~                                                                                                        [38;1H~                                                                                                        [39;1H~                                                                                                        [40;1H~                                                                                                        [41;1H~                                                                                                        [42;1H~                                                                                                        [43;1H~                                                                                                        [44;1H~                                                                                                        [45;1H~                                                                                                        [46;1H~                                                                                                        [47;1H~                                                                                                        [48;1H~                                                                                                        [49;1H~                                                                                                        [50;1H~                                                                                                        [51;1H~                                                                                                        [52;1H~                                                                                                        [1;1H[?12l[?25h
+
+
+
+
+
+
+[6;1H[7;92H[?25l[m[53;1H[1m-- INSERT --[m[53;13H[K[7;92H[?12l[?25h[?25l"[7;92H[K[7;91H[?12l[?25h[?25l"[7;91H[K[7;90H[?12l[?25h[?25l"[7;90H[K[7;89H[?12l[?25h[?25l"[7;89H[K[7;88H[?12l[?25h[?25l"[7;88H[K[7;87H[?12l[?25h[?25l"[7;87H[K[7;86H[?12l[?25h[?25l"[7;86H[K[7;85H[?12l[?25h[?25l"[7;85H[K[7;84H[?12l[?25h[?25l"[7;84H[K[7;83H[?12l[?25h[?25l"[7;83H[K[7;82H[?12l[?25h[53;1H[K[7;81H[?25l[?12l[?25h[?25l[53;1H:[?12l[?25hwq
+[?25l"/etc/default/grub" 7L, 374C written
+
+
+[?1l>[?12l[?25h[?1049l]0;root@lvm:/usr/lib/dracut/modules.d/01test[root@lvm 01test]# 
+[3@(reverse-i-search)`':[Cm': lsinitrd -m /boot/initramfs-$(uname -r).img | grep test
+[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[16Pk': mkdir /usr/lib/dracut/modules.d/01test
+[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cgrub2-mkconfig -o /boot/grub2/grub.cfg 
+[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+[5P[root@lvm 01test]#[C[C[C[C[C[C[C
+Generating grub configuration file ...
+Found linux image: /boot/vmlinuz-3.10.0-862.2.3.el7.x86_64
+Found initrd image: /boot/initramfs-3.10.0-862.2.3.el7.x86_64.img
+done
+]0;root@lvm:/usr/lib/dracut/modules.d/01test[root@lvm 01test]# sync
+]0;root@lvm:/usr/lib/dracut/modules.d/01test[root@lvm 01test]# logout
+]0;vagrant@lvm:~[vagrant@lvm ~]$ logout
+[?2004h[38;5;11malexeytot(B[m@snarkeb:(B[m[38;5;6m[~/otus/otus_hw7](B[m (B[m[38;5;2m11:16:51(B[m: (B[m[?2004l
+
+exit
+
+Script done on 2023-06-27 11:16:52+05:00 [COMMAND_EXIT_CODE="0"]
